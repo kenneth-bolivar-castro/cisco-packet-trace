@@ -1,0 +1,24 @@
+## Configure fastEthernet ip address
+Router>enable
+Router#configure terminal
+Router(config)#interface FastEthernet0/0
+Router(config-if)#ip address 192.16.3.1 255.255.255.128
+Router(config-if)#no shutdown
+Router(config-if)#do wr
+
+## Configure serial ip address
+Router>en
+Router#conf t
+Router(config)#int s0/1/0
+Router(config-if)#ip address 10.0.0.1 255.255.255.252
+Router(config-if)#clock rate 64000
+Router(config-if)#no sh
+Router(config-if)#do wr
+
+## Configure route rip v2
+Router>en
+Router#conf t
+Router(config)#route rip
+Router(config-router)#network 10.0.0.0
+Router(config-router)#version 2
+Router(config-router)#do wr
