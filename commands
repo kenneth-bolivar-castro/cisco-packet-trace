@@ -1,4 +1,5 @@
-## Configure fastEthernet ip address
+# Router 2811
+## Configure fastEthernet ip address ' Copper Straight-Through
 Router>enable
 Router#configure terminal
 Router(config)#interface FastEthernet0/0
@@ -6,7 +7,7 @@ Router(config-if)#ip address 192.16.3.1 255.255.255.128
 Router(config-if)#no shutdown
 Router(config-if)#do wr
 
-## Configure serial ip address
+## Configure serial ip address ' Module WIC-2T :=> Serial DCE
 Router>en
 Router#conf t
 Router(config)#int s0/1/0
@@ -15,10 +16,52 @@ Router(config-if)#clock rate 64000
 Router(config-if)#no sh
 Router(config-if)#do wr
 
-## Configure route rip v2
+## Configure DHCP on router
+Router>en
+Router#conf t
+Router(config)#ip dhcp pool LOCAL
+Router(dhcp-config)#network 192.168.10.0 255.255.255.0
+Router(dhcp-config)#default-router 192.168.10.1
+Router(dhcp-config)#dns-server 8.8.8.8
+Router(dhcp-config)#exit
+Router(config)#ip dhcp excluded-address 192.168.10.1 192.168.10.10
+Router(config)#do wr
+
+## Configure protocol rip v2
 Router>en
 Router#conf t
 Router(config)#route rip
-Router(config-router)#network 10.0.0.0
 Router(config-router)#version 2
+Router(config-router)#no auto-summary
+Router(config-router)#network 10.0.0.0
 Router(config-router)#do wr
+
+## Configure protocol eigrp
+Router>en
+Router#conf t
+Router(config)#route eigrp 10
+Router(config-router)#no auto-summary
+Router(config-router)#network 192.168.10.0
+Router(config-router)#do wr
+
+## Configure protocol ospf
+Router>en
+Router#conf t
+Router(config)#route ospf 100
+Router(config-router)#network 192.168.20.0 0.0.0.255 area 5
+Router(config-router)#do wr
+
+## Redistribute ospf to rip
+Router>en
+Router#conf t
+Router(config)#route ospf 100
+Router(config-router)#redistribute rip subnets
+Router(config-router)#do w
+
+## Redistribute ospf to eigrp
+Router>en
+Router#conf t
+Router(config)#route ospf 100
+Router(config-router)#redistribute eigrp 10 subnets
+Router(config-router)#do w
+
