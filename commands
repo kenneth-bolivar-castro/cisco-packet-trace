@@ -65,3 +65,11 @@ Router(config)#route ospf 100
 Router(config-router)#redistribute eigrp 10 subnets
 Router(config-router)#do w
 
+## Redistribute eigrp to ospf
+Router>en
+Router#conf t
+Router(config)#router eigrp 10
+Router(config-router)#redistribute ospf 100 metric 10000 10 255 255 1500
+Router(config-router)#network 10.0.0.0
+Router(config-router)#do w
+
