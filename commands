@@ -84,3 +84,46 @@ Router(config)#int s0/3/0
 Router(config-if)#encapsulation frame-relay
 Router(config-if)#do w
 
+## Configure passwprd
+Switch>en
+Switch#conf t
+Switch(config)#enable password 1234
+Switch(config)#do w
+
+## Configure line-console
+Switch>en
+Switch#conf t
+Switch(config)#line console 0
+Switch(config-line)#password c0nz0l3
+Switch(config-line)#login
+Switch(config-line)#do w
+
+## Configure line-vty
+Switch>en
+Switch#conf t
+Switch(config)#line vty 0
+Switch(config-line)#password vty0
+Switch(config-line)#do w
+
+## Banner message
+Switch>en
+Switch#conf t
+Switch(config)#banner motd $Switch protegido con claves$
+Switch(config)#do w
+
+## Enable encryption
+Switch>en
+Switch#conf t
+Switch(config)#service password-encryption
+Switch(config)#do w
+
+## Setup username-password
+Switch>en
+Switch#conf t
+Switch(config)#username admin password cisco
+Switch(config)#do w
+
+## Configure sub-net on fastEthernet to allow vlan redirection
+Router(config)#int f0/0.10
+Router(config-subif)#encapsulation dot1Q 10
+Router(config-subif)#ip address 192.168.10.1 255.255.255.0
