@@ -127,3 +127,18 @@ Switch(config)#do w
 Router(config)#int f0/0.10
 Router(config-subif)#encapsulation dot1Q 10
 Router(config-subif)#ip address 192.168.10.1 255.255.255.0
+
+## VTP Server
+Switch>en
+Switch#conf t
+Switch(config)#vtp mode server
+Switch(config)#vtp domain LIMON
+Switch(config)#vtp password SEGURO
+Switch(config)#vtp ver 2
+
+## VTP Client
+Switch>en
+Switch#conf t
+Switch(config)#vtp mode client
+Switch(config)#vtp password SEGURO
+
