@@ -33,28 +33,31 @@ Router(dhcp-config)#exit
 Router(config)#ip dhcp excluded-address 192.168.10.1 192.168.10.10
 Router(config)#do wr
 
-## Configure protocol rip v2
+## Configure protocol rip v2 | Ambos routers
 Router>en
 Router#conf t
 Router(config)#route rip
 Router(config-router)#version 2
 Router(config-router)#no auto-summary
+Router(config-router)#network 192.168.10.0
 Router(config-router)#network 10.0.0.0
 Router(config-router)#do wr
 
-## Configure protocol eigrp
+## Configure protocol eigrp | Ambos routers
 Router>en
 Router#conf t
 Router(config)#route eigrp 10
 Router(config-router)#no auto-summary
 Router(config-router)#network 192.168.10.0
+Router(config-router)#network 10.0.0.0
 Router(config-router)#do wr
 
-## Configure protocol ospf
+## Configure protocol ospf | Ambos routers
 Router>en
 Router#conf t
 Router(config)#route ospf 100
 Router(config-router)#network 192.168.20.0 0.0.0.255 area 5
+Router(config-router)#network 10.0.0.0 0.0.0.3 area 5
 Router(config-router)#do wr
 
 ## Redistribute ospf to rip
