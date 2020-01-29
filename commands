@@ -33,7 +33,7 @@ Router(dhcp-config)#exit
 Router(config)#ip dhcp excluded-address 192.168.10.1 192.168.10.10
 Router(config)#do wr
 
-## Configure protocol rip v2 | Ambos routers
+## Configure protocol rip v2 | Agrega todas las redes adjacentes de router
 Router>en
 Router#conf t
 Router(config)#route rip
@@ -43,7 +43,7 @@ Router(config-router)#network 192.168.10.0
 Router(config-router)#network 10.0.0.0
 Router(config-router)#do wr
 
-## Configure protocol eigrp | Ambos routers
+## Configure protocol eigrp | Agrega todas las redes adjacentes de router
 Router>en
 Router#conf t
 Router(config)#route eigrp 10
@@ -52,13 +52,35 @@ Router(config-router)#network 192.168.10.0
 Router(config-router)#network 10.0.0.0
 Router(config-router)#do wr
 
-## Configure protocol ospf | Ambos routers
+## Configure protocol ospf | Agrega todas las redes adjacentes de router
 Router>en
 Router#conf t
 Router(config)#route ospf 100
 Router(config-router)#network 192.168.20.0 0.0.0.255 area 5
 Router(config-router)#network 10.0.0.0 0.0.0.3 area 5
 Router(config-router)#do wr
+
+## Redistribute rip to eigrp
+Router>en
+Router#conf t
+Router(config)#route rip
+Router(config-router)#version 2
+Router(config-router)#no auto-summary
+Router(config-router)#redistribute eigrp 100 metric 15
+Router(config-router)#do w
+
+## Redistribute eigrp to rip
+Router>en
+Router#conf t
+Router(config)#route eigrp 100
+Router(config-router)#no auto-summary
+Router(config-router)#redistribute rip metric 10000 100 255 255 1500
+Router(config-router)#do w
+
+## Redistribute eigrp to ospf
+Router>en
+Router#conf t
+Router(config)#router eigrp 10
 
 ## Redistribute ospf to rip
 Router>en
@@ -73,11 +95,6 @@ Router#conf t
 Router(config)#route ospf 100
 Router(config-router)#redistribute eigrp 10 subnets
 Router(config-router)#do w
-
-## Redistribute eigrp to ospf
-Router>en
-Router#conf t
-Router(config)#router eigrp 10
 
 ## Configure frame-relay static IP addresses on serial
 Router>en
