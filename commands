@@ -69,6 +69,14 @@ Router(config-router)#no auto-summary
 Router(config-router)#redistribute eigrp 100 metric 15
 Router(config-router)#do w
 
+## Redistribute rip to ospf
+Router>en
+Router#conf t
+Router(config)#route rip
+Router(config-router)#no auto-summary
+Router(config-router)#redistribute ospf 100 metric 15
+Router(config-router)#do w
+
 ## Redistribute eigrp to rip
 Router>en
 Router#conf t
