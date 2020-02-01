@@ -89,6 +89,7 @@ Router(config-router)#do w
 Router>en
 Router#conf t
 Router(config)#router eigrp 10
+Router(config-router)#redistribute ospf 1 metric 10000 100 255 1 1500
 
 ## Redistribute ospf to rip
 Router>en
