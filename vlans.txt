@@ -1,0 +1,17 @@
+--Switch:
+
+Switch(config)#interface range f0/2-3
+Switch(config-if-range)#switchport access vlan 2
+Switch(config-if-range)#
+
+
+Switch(config)#interface FastEthernet0/1
+Switch(config-if)#switchport mode trunk
+
+
+-- Router:
+
+Router(config)#interface FastEthernet0/0
+Router(config-if)#interface FastEthernet0/0.2
+Router(config-subif)#encapsulation dot1Q 2
+Router(config-subif)#ip address 192.60.0.1 255.255.255.0
